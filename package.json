@@ -30,7 +30,7 @@
     "watch:build": "tsc -p tsconfig.json -w",
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
-    "prepare-release": "run-s reset-hard version"
+    "prepare-release": "run-s reset-hard build version"
   },
   "engines": {
     "node": ">=10"

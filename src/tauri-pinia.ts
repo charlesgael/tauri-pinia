@@ -11,6 +11,7 @@ import { createPinia } from 'pinia';
 import { replacer, reviver } from './json';
 
 const DEFAULT_SINGLEFILE_NAME = 'pinia.json';
+const DEFAULT_EXTENSION = 'json';
 
 type ConfigMonoFile = {
   readonly singleFile: true;
@@ -21,6 +22,24 @@ type ConfigMultiFiles = {
   readonly singleFile: false;
   readonly storeFilename?: Record<string, string>;
 };
+
+function getFilename(
+  storeId: string,
+  storeFilename: Record<string, string> = {}
+) {
+  return storeFilename[storeId] || `${storeId}.${DEFAULT_EXTENSION}`;
+}
+
+function getStorename(
+  filename: string,
+  storeFilename: Record<string, string> = {}
+) {
+  return (
+    Object.entries(storeFilename || {}).find(
+      ([, value]) => value === filename
+    )?.[0] || filename.slice(0, -DEFAULT_EXTENSION.length - 1)
+  );
+}
 
 type ConfigTauriPinia = ConfigMonoFile | ConfigMultiFiles;
 
@@ -40,10 +59,11 @@ export async function tauriPinia(options?: ConfigTauriPinia) {
             .filter((file) => file.name?.endsWith('.json'))
             .map(async (file) => {
               try {
-                const storeName = file.name!.slice(0, -5);
                 return {
-                  [_options.storeFilename?.[storeName] || storeName]:
-                    JSON.parse(await readTextFile(file.path), reviver),
+                  [getStorename(file.name, _options.storeFilename)]: JSON.parse(
+                    await readTextFile(file.path),
+                    reviver
+                  ),
                 };
               } catch (err) {
                 console.error('Could not read file', err);
@@ -78,14 +98,11 @@ export async function tauriPinia(options?: ConfigTauriPinia) {
     try {
       if (_options.singleFile === false) {
         console.log(`Saving store "${storeId}"`, store);
-        const filename =
-          Object.entries(_options.storeFilename || {}).find(
-            ([, value]) => value === storeId
-          )?.[0] || storeId;
+
         await writeFile(
           {
             contents: JSON.stringify(store, replacer, 2),
-            path: `stores/${filename}.json`,
+            path: `stores/${getFilename(file.name, _options.storeFilename)}`,
           },
           { dir: BaseDirectory.App }
         );
