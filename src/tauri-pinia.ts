@@ -102,7 +102,7 @@ export async function tauriPinia(options?: ConfigTauriPinia) {
         await writeFile(
           {
             contents: JSON.stringify(store, replacer, 2),
-            path: `stores/${getFilename(file.name, _options.storeFilename)}`,
+            path: `stores/${getFilename(storeId, _options.storeFilename)}`,
           },
           { dir: BaseDirectory.App }
         );
