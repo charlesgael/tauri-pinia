@@ -1,3 +1,3 @@
-import { tauriPinia } from './tauri-pinia';
+import { tauriPinia } from './tauri-pinia'
 
-export default tauriPinia;
+export default tauriPinia
