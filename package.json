@@ -1,77 +1,46 @@
 {
   "name": "tauri-pinia",
-  "version": "1.0.2",
-  "description": "Utility to make pinia stores persisted for tauri apps",
-  "main": "build/main/index.js",
-  "typings": "build/main/index.d.ts",
-  "module": "build/module/index.js",
+  "type": "module",
+  "version": "1.0.3",
+  "author": "charlesgael",
+  "license": "MIT",
+  "homepage": "https://github.com/charlesgael/tauri-pinia#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/charlesgael/tauri-pinia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/charlesgael/tauri-pinia/issues"
   },
   "keywords": [
     "tauri",
     "pinia",
     "persistence"
   ],
-  "author": "charlesgael",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/charlesgael/tauri-pinia/issues"
-  },
-  "homepage": "https://github.com/charlesgael/tauri-pinia#readme",
-  "scripts": {
-    "build": "run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
-    "fix": "run-s fix:*",
-    "fix:prettier": "prettier \"src/**/*.ts\" --write",
-    "fix:lint": "eslint src --ext .ts --fix",
-    "watch:build": "tsc -p tsconfig.json -w",
-    "version": "standard-version",
-    "reset-hard": "git clean -dfx && git reset --hard && npm i",
-    "prepare-release": "run-s reset-hard build version"
-  },
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=10"
   },
-  "dependencies": {
-    "debounce": "^1.2.1",
-    "pinia": "^2.0.14"
-  },
-  "devDependencies": {
-    "@babel/types": "^7.18.4",
-    "@tauri-apps/api": "^1.0.0-rc.7",
-    "@types/debounce": "^1.2.1",
-    "@types/node": "^17.0.42",
-    "@typescript-eslint/eslint-plugin": "^4.0.1",
-    "@typescript-eslint/parser": "^4.0.1",
-    "eslint": "^7.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-functional": "^3.0.2",
-    "eslint-plugin-import": "^2.22.0",
-    "npm-run-all": "^4.1.5",
-    "open-cli": "^6.0.1",
-    "prettier": "^2.1.1",
-    "standard-version": "^9.0.0",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.2",
-    "vue": "^3.2.37"
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "dev": "tsc "
   },
   "peerDependencies": {
-    "@tauri-apps/api": "^1.0.0-rc.7"
+    "@tauri-apps/api": "^1.5.0",
+    "pinia": "^2.1.6",
+    "typescript": "^5.0.0"
   },
-  "files": [
-    "build/main",
-    "build/module",
-    "!**/*.spec.*",
-    "!**/*.json",
-    "CHANGELOG.md",
-    "LICENSE",
-    "README.md"
-  ],
-  "prettier": {
-    "singleQuote": true
+  "dependencies": {
+    "debounce": "^1.2.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^1.0.0-beta.18",
+    "@types/debounce": "^1.2.2",
+    "commander": "^11.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.50.0",
+    "vue": "^3.3.4"
   }
 }
